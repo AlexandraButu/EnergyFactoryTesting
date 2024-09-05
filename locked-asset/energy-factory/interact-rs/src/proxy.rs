@@ -147,6 +147,19 @@ where
             .original_result()
     }
 
+    pub fn set_role<
+        Arg0: ProxyArg<TokenIdentifier<Env::Api>>,
+    >(
+        self,
+        token_identifier: Arg0,
+    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, ()> {
+        self.wrapped_tx
+            .payment(NotPayable)
+            .raw_call("set_role")
+            .argument(&token_identifier)
+            .original_result()
+    }
+
     /// Used internally by proxy-dex 
     pub fn extend_lock_period<
         Arg0: ProxyArg<u64>,
@@ -583,7 +596,6 @@ where
 
 #[type_abi]
 #[derive(TopEncode, TopDecode, NestedEncode, NestedDecode, Clone, Copy, Default)]
-
 #[derive(Debug)]
 pub struct LockOption {
     pub lock_epochs: u64,
